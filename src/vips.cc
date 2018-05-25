@@ -7,16 +7,18 @@
 
 using namespace vips;
 
-static void smartcrop_path(char path[], int width, int height, char** buf, size_t* len) {
+static void smartcrop_path(char path[], int width, int height, char **buf, size_t *len)
+{
     VImage in = VImage::new_from_file(path);
     VImage out = in.smartcrop(width, height, (VImage::option()->set("interesting", VIPS_INTERESTING_ATTENTION)));
-    out.write_to_buffer(".png", (void **) buf, len, NULL); 
+    out.write_to_buffer(".png", (void **)buf, len, NULL);
 }
 
-static void smartcrop_buffer(unsigned char **buf, unsigned char **buf_out, int width, int height, size_t* len_in, size_t* len_out) {
-    VImage in = VImage::new_from_buffer((void *) *buf, *len_in, "", NULL);
+static void smartcrop_buffer(unsigned char **buf, unsigned char **buf_out, int width, int height, size_t *len_in, size_t *len_out)
+{
+    VImage in = VImage::new_from_buffer((void *)*buf, *len_in, "", NULL);
     VImage out = in.smartcrop(width, height, (VImage::option()->set("interesting", VIPS_INTERESTING_ATTENTION)));
-    out.write_to_buffer(".png", (void **) buf_out, len_out, NULL);  
+    out.write_to_buffer(".png", (void **)buf_out, len_out, NULL);
 }
 
 ERL_NIF_TERM smartcrop(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
@@ -39,7 +41,7 @@ ERL_NIF_TERM smartcrop(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
         smartcrop_path(path, width, height, &buf, &len);
     }
     catch (VError err)
-    {   
+    {
         printf("%s", err.what());
         return enif_raise_exception(env, enif_make_int(env, -69));
     }
@@ -70,7 +72,7 @@ ERL_NIF_TERM smartcrop_buffer(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[
         memcpy(out.data, buf, len_out);
     }
     catch (VError err)
-    {   
+    {
         printf("%s", err.what());
         return enif_raise_exception(env, enif_make_int(env, -69));
     }
