@@ -1,5 +1,5 @@
 defmodule Libvips do
-  @compile {:autoload, false}
+  @compile {:autoload, true}
   @on_load {:init, 0}
 
   def init do
@@ -22,6 +22,9 @@ defmodule Libvips do
   def nif_smartcrop(file_path, width, height)
   def nif_smartcrop(_, _, _), do: exit(:nif_library_not_loaded)
 
+  def nif_smartcrop_buffer(image, width, height)
+  def nif_smartcrop_buffer(_, _, _), do: exit(:nif_library_not_loaded)
+  
   def smartcrop(file_path, width, height) do
     file_path
     |> :binary.bin_to_list()
