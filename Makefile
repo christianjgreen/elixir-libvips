@@ -5,7 +5,7 @@ VIPS = `pkg-config vips-cpp --cflags --libs`
 LIBS = $(VIPS)
 
 all:
-	gcc --std=c++11 -undefined dynamic_lookup -dynamiclib -o src/vips.so src/vips.cc $(CFLAGS) $(LIBS)
+	gcc -undefined dynamic_lookup -dynamiclib -o src/vips.so src/vips.c $(CFLAGS) $(LIBS)
 
 clean:
 	rm  -r "priv/vips.so"
